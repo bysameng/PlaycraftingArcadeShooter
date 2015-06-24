@@ -6,6 +6,7 @@ public class PlayerInput : MonoBehaviour {
 //	private EntityMotor motor;
 
 	private Rigidbody2D rbody;
+	private ScaleSpring scalar;
 
 
 	private float timeDown;
@@ -16,8 +17,8 @@ public class PlayerInput : MonoBehaviour {
 	private bool dragging = false;
 
 	void Awake(){
-//		this.motor = GetComponent<EntityMotor>();
 		this.rbody = GetComponent<Rigidbody2D>();
+		scalar = GetComponent<ScaleSpring>();
 	}
 
 
@@ -31,20 +32,23 @@ public class PlayerInput : MonoBehaviour {
 		Vector2 touchPos = Vector2.zero;
 		Vector2 deltaPos = Vector2.zero;
 
-		if (Input.touchCount > 0){
-			touchPos = Input.GetTouch(0).position;
-		}
-		touchPos = Input.mousePosition;
+//		if (Input.touchCount > 0){
+//			touchPos = Input.GetTouch(0).position;
+//		}
 
-		deltaPos = touchPos - lastPos;
 
 		bool touchDown = false;
-		touchDown = Input.touchCount > 0;
+//		touchDown = Input.touchCount > 0;
 		touchDown = touchDown || Input.GetMouseButton(0);
 
 		if (touchDown){
+			touchPos = Input.mousePosition;
+			deltaPos = touchPos - lastPos;
+		}
+
+		if (touchDown && lastTouched == true){
 			rbody.AddForce(deltaPos);
-			rbody.AddTorque(Random.value);
+			rbody.AddTorque(Random.value/10f);
 		}
 
 //		if (!dragging && touchDown){
