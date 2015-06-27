@@ -19,6 +19,7 @@ public class PlayerInput : MonoBehaviour {
 	void Awake(){
 		this.rbody = GetComponent<Rigidbody2D>();
 		scalar = GetComponent<ScaleSpring>();
+		Application.targetFrameRate = 59;
 	}
 
 
