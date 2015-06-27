@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour {
 
-	private int _phase = 2;
+	private int _phase = 3;
 	public int phase{
 		get{return _phase;}
 		set{_phase = Mathf.Clamp(value, 0, enemyPrefabs.Length);}

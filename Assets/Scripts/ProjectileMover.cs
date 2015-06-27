@@ -31,6 +31,7 @@ public class ProjectileMover : MonoBehaviour {
 		if (g.tag == "Enemy"){
 			Enemy e = g.GetComponent<Enemy>();
 			e.OnHit(transform.forward * hitForce);
+			PooledParticles.main.Splat(transform.position, 30);
 		}
 	}
 
