@@ -5,7 +5,7 @@ public class PlayerInput : MonoBehaviour {
 
 //	private EntityMotor motor;
 
-	private Rigidbody2D rbody;
+	private Rigidbody rbody;
 	private ScaleSpring scalar;
 
 
@@ -16,8 +16,10 @@ public class PlayerInput : MonoBehaviour {
 
 	private bool dragging = false;
 
+	public GameObject bulletPrefab;
+
 	void Awake(){
-		this.rbody = GetComponent<Rigidbody2D>();
+		this.rbody = GetComponent<Rigidbody>();
 		scalar = GetComponent<ScaleSpring>();
 		Application.targetFrameRate = 59;
 	}
@@ -26,59 +28,24 @@ public class PlayerInput : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		TouchLogic();
-		DragTimer();
+		if (Input.GetKeyDown(KeyCode.A)){
+			ShootBullet();
+		}
 	}
+
 
 	void TouchLogic(){
-		Vector2 touchPos = Vector2.zero;
-		Vector2 deltaPos = Vector2.zero;
-
-//		if (Input.touchCount > 0){
-//			touchPos = Input.GetTouch(0).position;
-//		}
-
-
-		bool touchDown = false;
-//		touchDown = Input.touchCount > 0;
-		touchDown = touchDown || Input.GetMouseButton(0);
-
-		if (touchDown){
-			touchPos = Input.mousePosition;
-			deltaPos = touchPos - lastPos;
-		}
-
-		if (touchDown && lastTouched == true){
-			rbody.AddForce(deltaPos);
-			rbody.AddTorque(Random.value/10f);
-		}
-
-//		if (!dragging && touchDown){
-//			OnTouchDown(touchPos);
-//		}
-//
-//		if (dragging && !touchDown){
-//			Vector2 force = OnRelease(touchPos);
-//			rbody.AddForce(force);
-//		}
-
-		lastTouched = touchDown;
-		lastPos = touchPos;
-	}
-
-	void DragTimer(){
-		if (dragging){
-			timeDown += Time.deltaTime;
-		}
+		Vector3 mousePos = Input.mousePosition;
+		mousePos.z = 10;
+		Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
+		this.transform.LookAt(worldPosition);
 	}
 
 
-	void OnTouchDown(Vector2 pos){
-		beginPosition = pos;
-		dragging = true;
+	void ShootBullet(){
+		Instantiate(bulletPrefab, transform.position, transform.rotation);
 	}
 
-	Vector2 OnRelease(Vector2 pos){
-		Vector2 force = pos - beginPosition;
-		return force / timeDown;
-	}
+
+
 }
