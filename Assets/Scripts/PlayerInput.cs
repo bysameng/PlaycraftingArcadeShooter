@@ -55,7 +55,6 @@ public class PlayerInput : MonoBehaviour {
 		if (Input.GetMouseButton(0)){
 			if (fireRateTimer <= 0 && shootAmmo > 5f){
 				ShootBulletWithCooldown();
-				scalar.AddForce(new Vector3(-7f, 3f, -6f));
 			}
 		}
 	}
@@ -78,6 +77,8 @@ public class PlayerInput : MonoBehaviour {
 	//while shooting, set the cooldowns.
 	//spawn the bullets;
 	void ShootBulletWithCooldown(){
+		scalar.AddForce(new Vector3(-7f, 3f, -6f));
+		CameraShake.main.Shake(transform.forward);
 		this.fireRateTimer = shootDelay;
 		this.cooldownTimer = coolDown;
 		shootAmmo -= 1f;

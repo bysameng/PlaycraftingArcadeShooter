@@ -35,6 +35,7 @@ public class Enemy : MonoBehaviour {
 	}
 
 	public void OnHit(Vector3 force){
+//		CameraShake.main.Shake(force/50f);
 		movingToCenter = false;
 		rbody.useGravity = true;
 		rbody.AddForce(force);
