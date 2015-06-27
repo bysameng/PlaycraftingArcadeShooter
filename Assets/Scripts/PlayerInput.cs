@@ -25,7 +25,6 @@ public class PlayerInput : MonoBehaviour {
 	void Awake(){
 		this.rbody = GetComponent<Rigidbody>();
 		Application.targetFrameRate = 59;
-		scalar.strength = 21f;
 	}
 
 
@@ -55,6 +54,7 @@ public class PlayerInput : MonoBehaviour {
 		if (Input.GetMouseButton(0)){
 			if (fireRateTimer <= 0 && shootAmmo > 5f){
 				ShootBulletWithCooldown();
+		scalar.strength = 21f;
 			}
 		}
 	}
