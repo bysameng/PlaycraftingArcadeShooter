@@ -4,7 +4,7 @@ using System.Collections;
 public class Credits : MonoBehaviour {
 
 
-	float timer = 3f;
+	float timer = 1f;
 
 	// Use this for initialization
 	void Start () {
