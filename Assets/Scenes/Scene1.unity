@@ -4372,7 +4372,7 @@ MonoBehaviour:
   - {fileID: 150258, guid: 2402a02d246be4c94ac4dd444edaa410, type: 2}
   - {fileID: 150258, guid: 4cd1b7dc2f78b43f6b5b5cc674baff96, type: 2}
   - {fileID: 150258, guid: 19b5bbcc0a4ed42b9aaa222c40c3e651, type: 2}
-  spawnDelay: .899999976
+  spawnDelay: .600000024
 --- !u!1 &1792770197
 GameObject:
   m_ObjectHideFlags: 0
