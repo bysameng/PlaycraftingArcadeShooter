@@ -5,7 +5,6 @@ public class Enemy : MonoBehaviour {
 
 	private Rigidbody rbody;
 
-	public float score = 10f;
 	public float speed = .5f;
 
 	public SpriteRenderer render;

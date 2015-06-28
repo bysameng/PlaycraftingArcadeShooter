@@ -8,14 +8,16 @@ public class PlayerInput : MonoBehaviour {
 	private Rigidbody rbody;
 	public ScaleSpring scalar;
 
-	private float maxShootAmmo = 50f;
-	private float _shootAmmo = 10f;
+	public AudioSource squirtSound;
+
+	private float maxShootAmmo = 5f;
+	private float _shootAmmo = 5f;
 	private float shootAmmo{
 		get{return _shootAmmo;}
 		set{_shootAmmo = Mathf.Clamp(value, 0f, maxShootAmmo);}
 	}
-	private float regenAmmoRate = 5f;
-	private float coolDown = .3f;
+	private float regenAmmoRate = 2f;
+	private float coolDown = .6f;
 	private float shootDelay = .1f;
 
 	private float fireRateTimer;
@@ -41,9 +43,9 @@ public class PlayerInput : MonoBehaviour {
 		Vector3 mousePos = Input.mousePosition;
 		mousePos.z = 10;
 		Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePos);
-		Vector3 fwd = worldPosition - transform.position;
-		Quaternion rot = Quaternion.LookRotation(fwd, Vector3.forward);
-		transform.rotation = Quaternion.Slerp(transform.rotation, rot, Time.deltaTime * 10f);
+
+		//tell this guy to look at that world position
+		transform.LookAt(worldPosition, Vector3.forward);
 	}
 
 	//handles shooting inputs.
@@ -52,9 +54,9 @@ public class PlayerInput : MonoBehaviour {
 			fireRateTimer -= Time.deltaTime;
 		}
 		if (Input.GetMouseButton(0)){
-			if (fireRateTimer <= 0 && shootAmmo > 5f){
-				ShootBulletWithCooldown();
-		scalar.strength = 21f;
+			if (fireRateTimer <= 0 && shootAmmo > 0){
+				TryShoot();
+				scalar.strength = 21f;
 			}
 		}
 	}
@@ -73,29 +75,47 @@ public class PlayerInput : MonoBehaviour {
 		}
 	}
 
+	void TryShoot(){
+		scalar.AddForce(new Vector3(-7f, 3f, -6f));
+		if (shootAmmo > 0){
+			ShootBulletWithCooldown();
+		}
+	}
 
 	//while shooting, set the cooldowns.
 	//spawn the bullets;
 	void ShootBulletWithCooldown(){
-		scalar.AddForce(new Vector3(-7f, 3f, -6f));
 		CameraShake.main.Shake(transform.forward);
 		this.fireRateTimer = shootDelay;
 		this.cooldownTimer = coolDown;
 		shootAmmo -= 1f;
 		ShootBullet();
+		squirtSound.pitch = Random.Range(.8f, 1.2f);
+		squirtSound.Play ();
 	}
 
 	//spawns the bullet.
 	void ShootBullet(){
-		Instantiate(bulletPrefab, transform.position, transform.rotation);
+		//instantiate the bullet
+		GameObject bullet = Instantiate(bulletPrefab, transform.position, transform.rotation) as GameObject;
+
+		//rotate a bit for some variation
+		bullet.transform.RotateAround(bullet.transform.position, Vector3.forward, Random.Range(-2f, 2f));
 	}
 
 	//called when an enemy hits this player.
 	public void OnHit(float damage){
-		shootAmmo -= damage;
-		if (shootAmmo <= 0){
-			Debug.Log("dead");
-		}
+	}
+
+	void OnCollisionEnter(Collision other){
+		KillPlayer();
+		Director.main.StartGameOver();
+	}
+
+	void KillPlayer(){
+		PooledParticles.main.Death();
+		CameraShake.main.Shake (.3f, .21f);
+		Destroy(this.gameObject);
 	}
 
 

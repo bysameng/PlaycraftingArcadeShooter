@@ -6,6 +6,7 @@ public class ProjectileMover : MonoBehaviour {
 	private Rigidbody rbody;
 
 	public float speed = 10;
+	public AudioClip hitClip;
 
 	private float hitForce = 200f;
 	private float lifeTime = 2f;
@@ -26,17 +27,17 @@ public class ProjectileMover : MonoBehaviour {
 	}
 
 	void OnCollisionEnter(Collision collision){
-		this.Disable();
 		GameObject g = collision.gameObject;
 		if (g.tag == "Enemy"){
 			Enemy e = g.GetComponent<Enemy>();
 			e.OnHit(transform.forward * hitForce);
 			PooledParticles.main.Splat(transform.position, 30);
+			Director.main.AddScore(1);
+			AudioSource.PlayClipAtPoint(hitClip, transform.position);
 		}
+		Destroy (this.gameObject);
 	}
 
-	public void Disable(){
-		this.gameObject.SetActive(false);
-	}
+
 
 }

@@ -1176,6 +1176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef92d1f5876df4aa6962cab3bd6bc736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  splat: {fileID: 0}
+  death: {fileID: 0}
 --- !u!1 &283174648
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,6 +2370,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentScore: 0
+  scoreText: {fileID: 0}
+  gameOverCanvas: {fileID: 0}
+  backgroundMusic: {fileID: 0}
+  endMusic: {fileID: 0}
+  gameOverSound: {fileID: 0}
 --- !u!1 &1005495893
 GameObject:
   m_ObjectHideFlags: 0
@@ -2580,6 +2587,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetScale: {x: 1, y: 1, z: 1}
   strength: 9
+  damping: .800000012
 --- !u!1 &1600453669
 GameObject:
   m_ObjectHideFlags: 0
@@ -2670,6 +2678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 154878, guid: 87087451b78a3481ba5a4d70ea5e74d9, type: 2}
   scalar: {fileID: 1569960879}
+  squirtSound: {fileID: 0}
 --- !u!114 &1600453675
 MonoBehaviour:
   m_ObjectHideFlags: 0
